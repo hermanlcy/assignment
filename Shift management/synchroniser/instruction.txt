@@ -1,0 +1,44 @@
+Please use Python 3.
+Commands may vary in different computers.
+
+-------setup:-------
+
+1. Open the terminal
+
+2. Move to the project directory 
+$ cd synchroniser
+
+3. Check Python3 and pip availability. If you already install then ignore this step. If you don't have please install these first.
+
+4. Install dependencies.
+$ pip3 install -r requirements.txt
+
+You could also run all these by running the setup.py:
+$ python3 setup.py
+or
+$ python setup.py
+
+-------launch the program:-------
+
+5. Start the program
+$ python3 manage.py
+or
+$ python manage.py
+
+It will auto-open the web browser for you.
+~Please reload the page if it does not load~
+
+-------on the web page:-------
+
+Here is the account detail:
+Testing account: mciteam7@mciteam7.onmicrosoft.com
+password: team7@mci
+
+On the web page:
+1. Sign in your Microsoft account on the right top of the page.
+2. Click on "Shift" at the top of the page to manage your schedules. This may run for a long time(It depends on the number of classes).
+3. Only the shifts ***Starting From Today*** will be checking; you can do nothing to change the past.
+4. Please be patient for a moment while the Shifts manager checks the consistency of all the schedules in your Microsoft Teams Shifts.
+5. All the shifts and related details will be showing in the table.
+6. To synchronize the schedules in your Microsoft Shifts, please name the group name to the exact course name listed on the course planner.
+7. To search for a specific course detail, please input the exact course name listed on the course planner.
