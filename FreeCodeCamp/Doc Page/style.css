@@ -1,0 +1,93 @@
+html, body {
+  min-width: 290px;
+  color: #4d4e53;
+  background: #f5f2e9;
+  font-family: 'Open Sans', Arial, sans-serif;
+  line-height: 1.5;
+}
+
+header {
+  color: black;
+  margin: 10px;
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: thin;
+}
+
+#main-doc {
+  position: absolute;
+  margin-left: 310px;
+  padding: 20px;
+  margin-bottom: 110px;
+}
+@media only screen and (max-width: 400px) {
+  #main-doc {
+    margin-left: -10px;
+  }
+}
+section p {
+  color: #4d4e53;
+  margin: 15px;
+  max-width: 1000px;
+  font-size: 0.96em;
+  overflow: hidden;
+}
+
+section:after {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.description {
+  color: #4d4e53;
+  font-size: 0.96em;
+}
+
+.column {
+  display: block;
+  float: right;
+  width: 220px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 4px;
+  max-width:100%;
+  max-height:100%;
+  text-align: center;
+}
+
+#navbar {
+  position: fixed;
+  min-width: 290px;
+  top: 0px;
+  left: 0px;
+  width: 300px;
+  height: 100%;
+  border-right: solid;
+  border-color: rgba(0, 22, 22, 0.4);
+}
+
+#navbar ul {
+  height: 88%;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#navbar li {
+  color: #4d4e53;
+  border-top: 1px solid;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+#navbar a {
+  display: block;
+  padding: 10px 30px;
+  color: #4d4e53;
+  text-decoration: none;
+  cursor: pointer;
+}
