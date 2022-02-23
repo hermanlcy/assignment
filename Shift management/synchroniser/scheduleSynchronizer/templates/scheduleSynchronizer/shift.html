@@ -1,0 +1,191 @@
+{% extends "scheduleSynchronizer/layout.html" %}
+{% block content %}
+<h1>Shifts manager</h1>
+<div>
+  <p>To search a specific course, please enter the details below:</p>
+  <form role="search" method="get" id="searchform" action="{% url 'search_function' %}" class="form-inline">
+    {% csrf_token %}
+    <div>
+      <!-- <label>Semester: </label> -->
+      <select name="semester" class="form-control" placeholder="select semester or trimester">
+        <option value="Semester 1">Semester 1</option>
+        <option value="Semester 2">Semester 2</option>
+        <option value="Trimester 1">Trimester 1</option>
+        <option value="Trimester 2">Trimester 2</option>
+        <option value="Trimester 3">Trimester 3</option>
+      </select>
+    </div>
+    <div>
+      <!-- <label>Session: </label> -->
+      <select name="sestype" class="form-control" placeholder="select session type">
+        <option value="Lecture">Lecture</option>
+        <option value="Workshop">Workshop</option>
+        <option value="Seminar">Seminar</option>
+        <option value="Tutorial">Tutorial</option>
+      </select>
+    </div>
+    <div>
+      <input type="search" name="courseName" placeholder="Enter course name" size="40" autocomplete="off" required class="form-control">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+</div>
+
+{% if error %}
+<p style="color:rgb(255, 0, 0)">Microsoft returns an error! please try again</p>
+<p style="color:rgb(255, 0, 0)">{{ error.code }}</p>
+<p style="color:rgb(255, 0, 0)">{{ error.message }}</p>
+{% else %}
+{% if teams %}
+<h3>Details in Microsoft Teams Shifts</h3>
+{% for team in teams %}
+<p>Shifts for team : {{ team.displayName }}</p>
+{% if team.error %}
+<p style="color:rgb(255, 0, 0)">Microsoft returns an error!</p>
+<p style="color:rgb(255, 0, 0)">{{ team.error.code }}</p>
+<p style="color:rgb(255, 0, 0)">{{ team.error.message }}</p>
+{% else %}
+
+<table class="table" data-toggle="collapse">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Staff(team member)</th>
+      <th scope="col">Course(group name)</th>
+      <th scope="col">Session</th>
+      <th scope="col">Start date</th>
+      <th scope="col">End date</th>
+      <th scope="col">Location</th>
+      <th scope="col">Matching result</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if team.shifts %}
+    {% for shift in team.shifts %}
+    {% if shift.Shift.selectedOne != 1 %}
+    {% if shift.Shift.isMatched == 0 %}
+    <tr class="table-active">
+      <td>{{ shift.Shift.userName }}</td>
+      <td>{{ shift.Shift.groupName }}</td>
+      <td>{{ shift.Shift.displayName }}</td>
+      <td>{{ shift.Shift.startDateTime }}</td>
+      <td>{{ shift.Shift.endDateTime }}</td>
+      <td>{{ shift.Shift.notes }}</td>
+      <td>Matched!</td>
+      <td>N.A.</td>
+    {% else %}
+    <tr class="table-danger">
+      <td>{{ shift.Shift.userName }}</td>
+      <td>{{ shift.Shift.groupName }}</td>
+      <td>{{ shift.Shift.displayName }}</td>
+      {% if shift.Shift.isMatched == 2 %}
+      <td style="color:rgb(255, 0, 0)">{{ shift.Shift.startDateTime }}</td>
+      {% else %}
+      <td>{{ shift.Shift.startDateTime }}</td>
+      {%endif%}
+      {% if shift.Shift.isMatched == 2 %}
+      <td style="color:rgb(255, 0, 0)">{{ shift.Shift.endDateTime }}</td>
+      {% else %}
+      <td>{{ shift.Shift.endDateTime }}</td>
+      {%endif%}
+      {% if shift.Shift.isMatched == 3 %}
+      <td style="color:rgb(255, 0, 0)">{{ shift.Shift.notes }}</td>
+      {% else %}
+      <td>{{ shift.Shift.notes }}</td>
+      {%endif%}
+      {% if shift.Shift.isMatched == 0 %}
+      <td>Matched!</td>
+      <td>N.A.</td>
+      {% elif shift.Shift.isMatched == 3 %}
+      <td style="color:rgb(255, 0, 0)">Incorrect location!</td>
+      <form id="form_shifts" method="post" action="{% url 'delete_by_id' %}">
+        {% csrf_token %}
+        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+        <input name="shift_id" value="{{shift.id}}" hidden>
+        <input name="team_id" value="{{team.id}}" hidden>
+      </form>
+      {% elif shift.Shift.isMatched == 2 %}
+      <td style="color:rgb(255, 0, 0)">Incorrect time!</td>
+      <form id="form_shifts" method="post" action="{% url 'delete_by_id' %}">
+        {% csrf_token %}
+        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+        <input name="shift_id" value="{{shift.id}}" hidden>
+        <input name="team_id" value="{{team.id}}" hidden>
+      </form>
+      {% elif shift.Shift.isMatched == 1 %}
+      <td style="color:rgb(255, 0, 0)">Incorrect shifts!</td>
+      <form id="form_shifts" method="post" action="{% url 'delete_by_id' %}">
+        {% csrf_token %}
+        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+        <input name="shift_id" value="{{shift.id}}" hidden>
+        <input name="team_id" value="{{team.id}}" hidden>
+      </form>
+      {% else %}
+      <td>unknown</td>
+      <form id="form_shifts" method="post" action="{% url 'delete_by_id' %}">
+        {% csrf_token %}
+        <td><button type="submit" class="btn btn-danger">Delete</button></td>
+        <input name="shift_id" value="{{shift.id}}" hidden>
+        <input name="team_id" value="{{team.id}}" hidden>
+      </form>
+      {%endif%}
+    </tr>
+    {%endif%}
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+{%endif%}
+{% endfor %}
+<a href="{% url 'delete_incorrect_shifts' %}" class="btn btn-danger">Delete all incorrect shifts</a>
+{% endif %}
+{% endif %}
+<div>
+  {% if result_list %}
+  <h3>More details on the Course Planner</h3>
+  {% for courses in result_list%}
+  <details>
+    <summary>Click here to show or hide <b>{{courses.0.title}}</b> details</summary>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Course</th>
+          <th scope="col">Session</th>
+          <th scope="col">Start date</th>
+          <th scope="col">End date</th>
+          <th scope="col">Location</th>
+          <th scope="col">Matching result</th>
+          <!-- <th scope="col">Action</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses%}
+        {% if course.isMatched == 0 %}
+        <tr class="table-active">
+          <td>{{ course.title }}</td>
+          <td>{{ course.section }}</td>
+          <td>{{ course.sdate }}</td>
+          <td>{{ course.edate }}</td>
+          <td>{{ course.location }}</td>
+          <td>Matched</td>
+          <td></td>
+        {% else %}
+        <tr class="table-danger">
+          <td>{{ course.title }}</td>
+          <td>{{ course.section }}</td>
+          <td>{{ course.sdate }}</td>
+          <td>{{ course.edate }}</td>
+          <td>{{ course.location }}</td>
+          <td style="color:rgb(255, 0, 0)">Missing</td>
+          <!-- <td><button type="submit" value="Submit" style="white-space: nowrap;">New Shift</button></td> -->
+        {%endif%}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </details>
+  {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

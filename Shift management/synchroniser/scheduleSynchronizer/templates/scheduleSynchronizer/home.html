@@ -1,0 +1,16 @@
+{% extends "scheduleSynchronizer/layout.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Welcome to scheduleSynchronizer</h1>
+  {% if user.is_authenticated %}
+    <h4 style="text-align:center;">Hello， {{ user.name }}!</h4>
+  {% else %}
+    <a style="text-align:center;" href="{% url 'signin' %}" class="btn btn-primary btn-large">Click here to sign in</a>
+  {% endif %}
+</div>
+<div class="jumbotron" color="blue">
+    <p class="lead">This web is designed to manage your Microsoft Teams Shifts with the University Course Planner</p>
+    <p>For <strong>first time user</strong>, please click <b>"Guide"</b> at the top of the page to get started.</p>
+    <p>Otherwise, please sign in first, then click <b>"Shift"</b> at the top of the page to manage your schedules.</p>
+  </div>
+{% endblock %}
