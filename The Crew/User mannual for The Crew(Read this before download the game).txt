@@ -1,0 +1,5 @@
+1. Our game is not designed for human player. 
+2. It is run by 3 to 5 AI players together to simulate the result for differernt mission  only
+3. After you download the game file use any popular IDE such as visual studio 2019 to complie and Run the game
+4. Please use Command line --    python2 game_engine.py   --to run the game, as our game is developed under python 2
+5. After you run the game, please follow the instruction to select the number of AIs you wanna use and the mission number that you wanna select
